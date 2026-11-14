@@ -1,9 +1,4 @@
-html {
-	min-height: 100%;
-}
-
 body {
-	height: 100%;
 	// The html and body elements cannot have any padding or margin.
 	margin: 0px;
 	padding: 0px !important;
@@ -14,7 +9,7 @@ body {
 // 	overflow-x: hidden;  //Prevent scroll on narrow devices
 // }
 
-@media(max-width: 991px) {
+@media (max-width: 991px) {
 	.intro-area,
 	.footnote-area {
 		padding: 15px;
@@ -41,7 +36,6 @@ body {
 			margin-top: var(--margin-sm);
 			margin-right: var(--margin-xs);
 		}
-
 
 		.page-head .sub-heading {
 			font-size: var(--text-xs);
@@ -70,33 +64,19 @@ body {
 		}
 	}
 
-	#navbar-breadcrumbs {
-		display: inline-block;
-		max-width: 150px;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-
-		@media(max-width: 480px) {
-			li > a {
-				width: 100px;
-			}
-		}
+	.navbar-breadcrumbs {
+		max-width: 200px;
+		width: 100%;
 	}
 
-	#navbar-breadcrumbs > li,
-	#navbar-breadcrumbs > li > a {
-		display: inline-block;
-		vertical-align: middle;
-	}
-
-	#navbar-breadcrumbs > li > a:before {
-		// .breadcrumb-divider-left();
-	}
-
-	// select all except last 2
-	#navbar-breadcrumbs li:not(:nth-last-child(-n+1)) {
+	// only the last crumb, which is the page title, fits on a phone
+	.navbar-breadcrumbs li:not(:last-child) {
 		display: none;
+	}
+
+	// the crumbs the separator would sit between are gone, so it has nothing to separate
+	.navbar-breadcrumbs.mobile-no-divider li + li::before {
+		content: none;
 	}
 
 	.sidebar .form-group {
@@ -122,7 +102,7 @@ body {
 
 	.sidebar .user-menu {
 		padding: 9px 14px;
-		background-color: var(--navbar-bg);
+		background-color: var(--subtle-accent);
 
 		position: absolute;
 		left: 0;
@@ -134,37 +114,18 @@ body {
 		margin-top: -1px;
 	}
 
-	// body[data-route=""],
-	// body[data-route="desktop"] {
-	// 	.navbar .navbar-home {
-	// 		// display: none !important;
-	// 		&:before {
-	// 			display: none;
-	// 		}
-	// 		img {
-	// 			margin-top: 0;
-	// 		}
-	// 	}
-
-	// 	.toggle-sidebar {
-	// 		display: none !important;
-	// 	}
-	// }
-
-	// body[data-sidebar="0"] {
-	// 	.toggle-sidebar {
-	// 		display: none !important;
-	// 	}
-	// }
+	body[data-route^="Form"] {
+		.page-title {
+			padding-right: 0px;
+		}
+	}
 }
 
-@media(max-width: 767px) {
-
-	body[data-route^="Form"]{
+@media (max-width: 767px) {
+	body[data-route^="Form"] {
 		.page-title {
-			.title-text {
-				font-size: var(--text-lg);
-				max-width: 300px;
+			.es-breadcrumbs li:last-child .es-breadcrumbs__item {
+				@include get_textstyle("lg", "regular");
 			}
 
 			.indicator {
@@ -207,8 +168,12 @@ body {
 	}
 
 	// listviews
-	.list-row {
-		padding: 13px 15px !important;
+	.select-like {
+		margin-right: unset !important;
+	}
+
+	.list-count {
+		display: contents;
 	}
 
 	.doclist-row {
@@ -250,14 +215,13 @@ body {
 				top: 4px;
 
 				// bigger indicators for list
-				.indicator::before, .indicator::after {
+				.indicator::before,
+				.indicator::after {
 					height: 12px;
 					width: 12px;
 					border-radius: 12px;
 				}
-
 			}
-
 		}
 
 		.list-row-right.no-right-column {
@@ -266,49 +230,6 @@ body {
 			right: 10px;
 			left: -10px;
 			width: 100%;
-
-		}
-	}
-
-	#page-chat {
-		.layout-side-section {
-			position: relative;
-			left: 0px;
-			border-right: 1px solid var(--border-color);
-			padding-left: 0px;
-			float: left;
-
-			// hack! to prevent overlap of borders
-			width: 76px;
-		}
-
-		.layout-main-section-wrapper {
-			position: absolute;
-			left: 75px;
-			right: 0px;
-			border-left: 1px solid var(--border-color);
-			float: left;
-		}
-
-		.module-sidebar-item {
-			margin: 0px;
-
-			.chat-sidebar-link {
-				padding: var(--padding-md);
-			}
-		}
-
-		.timeline-head {
-			padding: 15px 15px 7px;
-		}
-
-		.list-row {
-			padding: 7px 0px;
-		}
-
-		.message-row-right {
-			margin-top: var(--margin-sm);
-			text-align: left;
 		}
 	}
 
@@ -340,12 +261,13 @@ body {
 						margin-right: 0;
 					}
 				}
-				.comment-header{
+				.comment-header {
 					padding: 7px 10px;
 					.links-active {
 						padding-right: 10px;
 					}
-					.reply-link, .reply-link-all {
+					.reply-link,
+					.reply-link-all {
 						margin-left: 0;
 					}
 					.asset-details {
@@ -358,10 +280,10 @@ body {
 				.reply {
 					padding: 10px;
 				}
-				.commented-on-small{
+				.commented-on-small {
 					display: inline-block;
 				}
-				.commented-on-small{
+				.commented-on-small {
 					display: inline-block;
 				}
 			}
@@ -378,6 +300,47 @@ body {
 		}
 		.asset-details {
 			line-height: 24px; /*Height of avtar image -36px to align text center vertically*/
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.mobile-id-filter .form-group {
+		width: 120px;
+	}
+
+	body[data-route^="Form"] {
+		.navbar-breadcrumbs {
+			max-width: 125px;
+		}
+		.page-title {
+			width: 100%;
+			.title-area {
+				.page-indicator-pill {
+					margin-left: 5px;
+				}
+				.mobile-no-divider .es-breadcrumbs__item {
+					line-height: 20px;
+				}
+			}
+		}
+		.page-actions {
+			.standard-actions {
+				.menu-btn-group .menu-more-button {
+					margin-left: 0;
+				}
+			}
+		}
+		.standard-items-section .search-bar {
+			margin-right: 10px;
+		}
+	}
+}
+
+@media (max-width: 412px) {
+	body[data-route^="Form"] {
+		.page-title .es-breadcrumbs li:last-child .es-breadcrumbs__label {
+			max-width: 28vw;
 		}
 	}
 }
